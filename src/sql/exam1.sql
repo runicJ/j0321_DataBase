@@ -113,6 +113,7 @@ drop table hoewon;
 
 
 -- 22. hoewon테이블의 이름을 'sinsang' 테이블로 변경한다.
+-- (변경 명령어 : ALTER TABLE 기존테이블명 RENAME 새테이블명;)
 alter table hoewon rename sinsang;
 
 
@@ -250,7 +251,7 @@ select mid,age,address from sinsang;
 
 
 -- 50. 2000년 1월 1일 이후(포함)에 입사한 사람들에 대하여 '아이디' 와 '성별', '입사일'을 출력하되, 
---'mid'는 '아이디'로, 'gender'는 '성별'로, 'ipsail'은 '입사일'이란 필드명으로 출력되게 하시오?
+--'mid'는 '아이디'로, 'gender'는 '성별'로, 'ipsail'은 '입사일'이란 필드명으로 출력되게 하시오?(gender as 성별, ipsail as 입사일)
 select mid as '아이디',gender as '성별',ipsail as '입사일' from sinsang where ipsail >= '2000-1-1';
 
 
