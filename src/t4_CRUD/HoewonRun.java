@@ -1,4 +1,4 @@
-package t3_CRUD;
+package t4_CRUD;
 
 import java.util.Scanner;
 
@@ -25,7 +25,7 @@ public class HoewonRun {  // View
 					service.setInput();  // hoewon자료 등록
 					break;
 				case 2:
-					service.getList();  // hoewon자료 전체조회
+					service.getList();  // hoewon자료 전체 조회
 					break;
 				case 3:
 					System.out.print("검색할 성명을 입력하세요? ");  //service에 하면 sc 또 생성해야 해서 여기에 만듬 //동명이인 있으면 첫번째 자료만 가져올수 있음

@@ -31,7 +31,8 @@ public class HoewonDAO {
 			conn.close();
 		} catch (SQLException e) {}
 	}
-
+	
+	// 전체조회
 	public ArrayList<HoewonVO> getList() {
 		ArrayList<HoewonVO> vos = new ArrayList<HoewonVO>();
 	  Statement stmt;
@@ -56,22 +57,24 @@ public class HoewonDAO {
 		
 		return vos;
 	}
-
+	
+	// 개별조회
 	public HoewonVO getSearch(String name) {
+		HoewonVO vo = new HoewonVO();
 		try {
 			Statement stmt = conn.createStatement();
 			String sql = "select * from hoewon where name='"+name+"'";
 			ResultSet rs = stmt.executeQuery(sql);
-			
-			HoewonVO vo = new HoewonVO();
-			
-			
-			
+			if(rs.next()) {
+				vo.setIdx(rs.getInt("idx"));
+				vo.setName(rs.getString("name"));
+				vo.setAge(rs.getInt("age"));
+				vo.setGender(rs.getString("gender"));
+				vo.setAddress(rs.getString("address"));
+			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("SQL 오류 : " + e.getMessage());
 		}
-		
-		return null;
+		return vo;
 	}
 }

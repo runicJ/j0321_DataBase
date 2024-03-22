@@ -1,4 +1,4 @@
-package t3_CRUD;
+package t4_CRUD;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -67,19 +67,20 @@ public class HoewonService {
 			System.out.println("성별 : " + vo.getGender());
 			System.out.println("주소 : " + vo.getAddress());
 			System.out.println("------------------------------");
-			System.out.print("수정할 항목? 1.성명  2.나이  3.성별  4.주소 ==> ");
+			System.out.print("수정할 항목? 1.성명  2.나이  3.성별  4.주소 ==> ");  // 5번하고 입력해도 에러x 값이 변하지 않음 원본값 업데이트  // 없는 것은 그냥 스킵 => 수정한 처리결과 0
 			int choice = sc.nextInt();
 			System.out.print("수정할 내용? ");
 			String content = sc.next();  // 나이는 숫자로 바꿔서 처리
-			dao.setUpdate(vo.getIdx(), choice, content);  // dao에서 수정(choice, content, idx(유일값) 보내야 함)  // 리턴값x void(위의 확인이 없다면 int 변수=로 리턴값 줌)
-			System.out.println("===> 자료가 수정되었습니다.");  // return값을 준다면 비교 != 0 이 아니면 수정된건 ==0은 값이 없는 것
-//			int res = dao.setUpdate(vo.getIdx(), choice, content);
-//			if(res != 0) {
-//				System.out.println("===> 자료가 수정되었습니다.");
-//			}
-//			else {
-//				System.out.println("수정된 자료가 없습니다.");
-//			}
+			
+			if(choice == 1) vo.setName(content);
+			else if(choice == 2) vo.setAge(Integer.parseInt(content));
+			else if(choice == 3) vo.setGender(content);
+			else if(choice == 4) vo.setAddress(content);  // 관계없는게 들어오면 그냥 나감 // 아니면 반복문 돌려야
+			
+			//dao.setUpdate(vo.getIdx(), choice, content);  // dao에서 수정(choice, content, idx(유일값) 보내야 함)  // 리턴값x void(위의 확인이 없다면 int 변수=로 리턴값 줌)
+			int res = dao.setUpdate(vo);  // res 숫자로 넘어옴. // 정석대로 하면 처리하고 밑에처리 하지만 값이 뻔하면 밑에 먼저 처리 // 내용을 vo에 담았으니 vo를 넘기면 됨
+			if(res != 0) System.out.println("===> 자료가 수정되었습니다.");  // return값을 준다면 비교 != 0 이 아니면 수정된건 ==0은 값이 없는 것
+			else System.out.println("===> 자료가 수정되지 않았습니다.");
 		}
 		else {
 			System.out.println("검색한 자료가 없습니다.");

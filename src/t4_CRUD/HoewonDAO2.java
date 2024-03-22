@@ -1,4 +1,4 @@
-package t3_CRUD;
+package t4_CRUD;
 ////////////////////////////statement,rs 객체 닫아야함 => 메모리 누수
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,6 +24,8 @@ public class HoewonDAO2 {
 			Class.forName("com.mysql.jdbc.Driver");
 			
 			String url = "jdbc:mysql://localhost:3306/javaclass";
+			//String url = "jdbc:mysql://127.0.0.1:3306/javaclass";  // 고유주소 루프백 (0은 네트워크주소)
+			//String url = "jdbc:mysql://192.168.50.57:3306/javaclass";
 			String user = "atom";
 			String password = "1234";
 			conn = DriverManager.getConnection(url, user, password);
@@ -113,7 +115,7 @@ public class HoewonDAO2 {
 		
 		return vo;
 	}
-	
+	/*
 	// 회원자료 수정처리
 	//System.out.print("수정할 항목? 1.성명  2.나이  3.성별  4.주소 ==> ");
 	//public int setUpdate(int idx, int choice, String content) {
@@ -121,8 +123,7 @@ public class HoewonDAO2 {
 		//int res = 0;
 		try {
 			stmt = conn.createStatement();  //여러개 사용
-			//sql= "";  // 프로그래머는 한개를 고치건 여러개를 고치건 수정한걸로 생각함 => 한줄로 처리 가능(안바꾼건 원본데이터로)
-			if(choice == 1) {
+			if(choice == 1) {  // 프로그래머는 한개를 고치건 여러개를 고치건 수정한걸로 생각함 => 한줄로 처리 가능(안바꾼건 원본데이터로)
 				sql = "update hoewon set name='"+content+"' where idx=" + idx; // statement 객체가 실행될때 sql
 			}
 			else if(choice == 2) {
@@ -143,6 +144,7 @@ public class HoewonDAO2 {
 			stmtClose();
 		}
 	}
+	*/
 	
 	// 회원자료 삭제처리
 	public void setDelete(String name) {  // 동명이인 없다고 가정
@@ -168,5 +170,22 @@ public class HoewonDAO2 {
 		} finally {
 			stmtClose();
 		}
+	}
+	
+	// 회원 정보 수정하기
+	public int setUpdate(HoewonVO vo) {  // 위에 있는데 사용가능한 이유 => 오버로딩
+		//System.out.println("vo : " + vo);  // 뭘 찍었는지 toString() // dao에 값이 넘어왔는지 찍어봄  // 에러가 어디서 발생하는지
+		int res = 0;
+		try {
+			stmt = conn.createStatement();
+			sql = "update hoewon set name='"+vo.getName()+"', age="+vo.getAge()+", gender='"+vo.getGender()+"', address='"+vo.getAddress()+"' where idx=" + vo.getIdx();
+			res =stmt.executeUpdate(sql);  // select 외의 경우(대표적 delete, update, insert 수행하고 끝(돌려받든 말든)) 쿼리,업데이트만 2개 기억
+			//System.out.println("res : " + res);  // 변수값 vo값 에러 있나 찍어보자 => 찍어보고 지우거나 주석처리  // 여기서 ctrl+f11해도 jvm이 가장 최근에 실행했던 프로그램 실행
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			stmtClose();
+		}
+		return res;
 	}
 }
